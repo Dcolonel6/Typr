@@ -1,4 +1,5 @@
 //this module will contain helper functions
+import { _ } from 'underscore'
 
 
 function createElement(tagName, textContent, attributes = {}) {
@@ -9,7 +10,7 @@ function createElement(tagName, textContent, attributes = {}) {
     return element;
   }
 
-  function updateElement(element, text = "", attribute = {}) {
+function updateElement(element, text = "", attribute = {}) {
     if (text.length) {
       element.textContent = text;
     }
@@ -17,6 +18,11 @@ function createElement(tagName, textContent, attributes = {}) {
       element.setAttribute(attr, attribute[attr]);
     }
     return element;
-  }
+}
 
-  export { createElement}
+function findWordRecords(list,attrib){
+  return _.where(list,attrib)
+
+}
+
+export { createElement, findWordRecords}
