@@ -80,3 +80,8 @@ Sentences.prototype.populateDom = function(ele){
     return this
 
 }
+Sentences.prototype.getSentence = function(){
+    //fetch a sentence using fetch
+    return this.sentences
+}
+
