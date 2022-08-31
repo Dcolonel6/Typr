@@ -9,7 +9,7 @@ Timer.prototype.startCountDown = function(){
     self = this
     this.setIntervalId = setInterval(function(){
         this.timeAlloted--
-        this.eleTimer.textContent = time
+        //this.eleTimer.textContent = time
         const secondElapsed = new CustomEvent('second',{
             detail:{
                 message: 'a second has elapsed',
