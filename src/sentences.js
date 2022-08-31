@@ -1,3 +1,11 @@
+/**
+ * 
+ * @param {nodeElement} elem 
+ * the main aim of this constructor is to handle all things related to
+ * our sentences. it should fetch,breakdown and populate the Dom with
+ * the initial sentence to be typed
+ */
+
 const Sentences = function(elem){
     this._data = []
     this.sentences = `Mediocrity is a place where people often get stuck and do not know how to escape. 
@@ -12,6 +20,7 @@ const Sentences = function(elem){
     It is a journey of continuous progression toward the goals in your life.`
     this.paragraphElemnt = elem
 }
+//breaks down the sentence to be typed into letters and wraps in spans
 Sentences.prototype.getData() = function(){
     const sentence = this.sentence
     const arrayOfWords = sentence.split(' ')
@@ -44,4 +53,30 @@ Sentences.prototype.getData() = function(){
     this._data.pop()
     return this_data
 }
+Sentences.prototype.populateDom = function(ele){
+    this._data.forEach(({word,letter,letterIndxInWord,indexInRelationToSentence,isLetter,indexOfWord}) => {
 
+        if(isLetter){
+            ele.innerHTML = `
+            <span  
+                data-word="${word}" 
+                data-index-of-word="${indexOfWord}"
+                data-index-letter-word="${letterIndxInWord}"
+                data-index-letter-sentence="${indexInRelationToSentence}">
+                ${letter}            
+            </span>`
+        }else{
+            ele.innerHTML = `
+            <span  
+                data-word="${word}" 
+                data-index-of-word="${indexOfWord}"
+                data-index-letter-word="${letterIndxInWord}"
+                data-index-letter-sentence="${indexInRelationToSentence}">
+                ${letter}            
+            </span>`
+
+        }
+    })
+    return this
+
+}
