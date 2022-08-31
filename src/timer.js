@@ -32,3 +32,22 @@ Timer.prototype.resetTime  = function(){
     
     return this
 }
+
+//checks to see if time is up and raises a timeup Event
+Timer.prototype.setAlarm = function(time){
+    self = this
+    const timeIsUp = new CustomEvent('TimeIsUp',{
+        detail: {
+            message: `${time} has elapsed`,
+            timer: self
+        },
+        cancelable: true,
+        bubbles:true
+    })
+    this.setTimeoutId = setTimeout(function(){
+        this.eleTimer.dispatch(timeIsUp)
+        this.resetTime()
+
+    },60,000)
+    
+}
