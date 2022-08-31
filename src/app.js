@@ -1,4 +1,4 @@
-import { Sentences } from "./sentences"
+import { Sentences } from "./sentences.js"
 
 /***
  * this module is meant to take care of the initializing needs of the app
@@ -17,8 +17,10 @@ App.prototype.initialize = function(){
     const paragraphElem = document.querySelector('#sentences')
     const sentence = new Sentences(paragraphElem)
     this.sentenceToBeTyped = sentence.getSentence()
-    sentence.getData().populateDom()
+    sentence.prepareSentence().populateDom()
     this.preparedSentenceToBeTyped = sentence.getPrepared()
     this._textArea.addEventListener('paste',event => event.preventDefault())
     
 }
+
+export {App}
