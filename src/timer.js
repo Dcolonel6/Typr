@@ -48,6 +48,6 @@ Timer.prototype.setAlarm = function(time){
         this.eleTimer.dispatch(timeIsUp)
         this.resetTime()
 
-    },60,000)
+    },this.timeAlloted * 1000)
     
 }
