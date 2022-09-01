@@ -1,4 +1,4 @@
-const Timer = function(time, ele = document.querySelector('#timer')){
+const Timer = function(time, ele){
     this.eleTimer = ele
     this.timeAlloted = time || 60
     this.isActive = false
@@ -8,21 +8,22 @@ Timer.prototype.startCountDown = function(){
     this.isActive = true
     self = this
     this.setIntervalId = setInterval(function(){
-        this.timeAlloted--
+        self.timeAlloted--
         //this.eleTimer.textContent = time
         const secondElapsed = new CustomEvent('second',{
             detail:{
                 message: 'a second has elapsed',
-                time: this.timeAlloted,
+                time: self.timeAlloted,
                 timer: self
             },
             cancelable: true,
             bubbles: true
         })
 
-        this.eleTimer.dispatch(secondElapsed)
+        self.eleTimer.dispatchEvent(secondElapsed)
 
     },1000)
+    
 
 }
 Timer.prototype.resetTime  = function(){
@@ -45,8 +46,8 @@ Timer.prototype.setAlarm = function(time){
         bubbles:true
     })
     this.setTimeoutId = setTimeout(function(){
-        this.eleTimer.dispatch(timeIsUp)
-        this.resetTime()
+        self.eleTimer.dispatchEvent(timeIsUp)
+        self.resetTime()
 
     },this.timeAlloted * 1000)
     
