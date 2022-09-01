@@ -6,9 +6,11 @@ const Timer = function(time, ele){
 }
 Timer.prototype.startCountDown = function(){
     this.isActive = true
+    const time = this.timeAlloted
+    //this doesnt point to Timer object inside the cb
     self = this
     this.setIntervalId = setInterval(function(){
-        self.timeAlloted--
+        
         //this.eleTimer.textContent = time
         const secondElapsed = new CustomEvent('second',{
             detail:{
@@ -20,17 +22,19 @@ Timer.prototype.startCountDown = function(){
             bubbles: true
         })
         if(self.timeAlloted === 0){
-            self.timeUp()
+            self.timeUp(time)
         }
+        
 
         self.eleTimer.dispatchEvent(secondElapsed)
+        self.timeAlloted--
 
     },1000)
-    this.setAlarm(this.timeAlloted)
+   
     
 
 }
-Timer.prototype.resetTime  = function(){
+Timer.prototype.resetTime  = function(time){
     this.isActive = false
     this.timeAlloted = time || 60
     clearInterval(this.setIntervalId)
@@ -43,13 +47,14 @@ Timer.prototype.timeUp = function(time){
     const timeIsUp = new CustomEvent('TimeIsUp',{
         detail: {
             message: `${time} has elapsed`,
-            timer: self
+            timer: self,
+            originalTime: time
         },
         cancelable: true,
         bubbles:true
-    })
+    })    
+    this.resetTime(time)
     this.eleTimer.dispatchEvent(timeIsUp)
-    this.resetTime()
     return this   
     
 }
