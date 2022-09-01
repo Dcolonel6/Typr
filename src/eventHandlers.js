@@ -34,26 +34,26 @@ function onKeyUp(event){
     //check if we have collected any data for this typing session.If we havent start count down
     const sentenceToBeTyped = app.sentenceToBeTyped
     const arrayOfWords = sentenceToBeTyped.split(' ').slice(0,sentenceTyped.length)
-    // arrayOfWords.forEach((word,index) => {
-    //     const wordTyped = listOfWordsTyped[index]
-    //     const wordData = findWordRecords(app.preparedSentenceToBeTyped,{'indexOfWord':index}) 
+    arrayOfWords.forEach((word,index) => {
+        const wordTyped = listOfWordsTyped[index]
+        const wordData = findWordRecords(app.preparedSentenceToBeTyped,{'indexOfWord':index}) 
                
-    //     wordData.forEach((letterObject,indx) => {
+        wordData.forEach((letterObject,indx) => {
                       
-    //         const span = paragraphEle.querySelector(`span[data-indexInRelationToSentence="${letterObject['data-indexInRelationToSentence']}"]`)
+            const span = paragraphEle.querySelector(`span[data-indexInRelationToSentence="${letterObject['data-indexInRelationToSentence']}"]`)
             
-    //         if(letterObject["data-letter"] === wordTyped[indx]){
+            if(letterObject["data-letter"] === wordTyped[indx]){
                 
-    //             span.classList.remove('text-danger')
-    //             span.classList.add('text-success')
+                span.classList.remove('text-danger')
+                span.classList.add('text-success')
 
-    //         }else{
-    //             span.classList.remove('text-success')
-    //             span.classList.add('text-danger')
+            }else{
+                span.classList.remove('text-success')
+                span.classList.add('text-danger')
 
-    //         }
-    //     })
-    // })
+            }
+        })
+    })
 
 }
 
@@ -65,9 +65,19 @@ function onSecondElapsed(event){
 function onTimeIsUp(event){
     //over ridden this to point to the text area element
     const { target, detail} = event
+    const results = document.querySelector('#results-content')
+    const rightAttempt = document.querySelector('.text-success')
+    const wrongAttempt = document.querySelector('.text-danger')
+    const totalAttempted = wrongAttempt.length + rightAttempt.length
+    const accuracy = (rightAttempt.length / totalAttempted) * 100
     this.setAttribute('disabled',true)
     target.querySelector('h2').textContent = detail.timer.timeAlloted
+    document.querySelector('submit').setAttribute('disable',true)
     
+    results.innerHTML = `Your score was ${accuracy} <br/>
+    Had ${wrongAttempt} typos <br/>
+    Typed ${rightAttempt} words`
+    results.classList.remove('hidden')
 
 }
 
