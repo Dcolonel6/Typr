@@ -1,4 +1,4 @@
-const Timer = function(time,ele = document.querySelector('#timer')){
+const Timer = function(time, ele = document.querySelector('#timer')){
     this.eleTimer = ele
     this.timeAlloted = time || 60
     this.isActive = false
@@ -51,3 +51,4 @@ Timer.prototype.setAlarm = function(time){
     },this.timeAlloted * 1000)
     
 }
+export { Timer }
