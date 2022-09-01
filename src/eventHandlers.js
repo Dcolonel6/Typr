@@ -2,20 +2,26 @@
  * contains all the event handlers callbacks
  */
 
- import { App } from './app.js'
- import { findWordRecords } from './utilities.js'
- const app = new App()
+import { App } from './app.js'
+import { Timer } from './timer.js'
+import { findWordRecords } from './utilities.js'
+
+const app = new App()
+const timer = new Timer(15)
 const paragraphEle = document.querySelector('#sentences')
-console.log(paragraphEle)
+
 
 //handler for DomContentLoaded
- function init(e){    
+function init(e){    
     app.initialize()
 
 }
 
 //handler for KeyPress
 function onKeyUp(event){
+    if(!timer.isActive){
+        timer.startCountDown()
+    }
     const { target } = event
     const sentenceTyped = target.value
     const listOfWordsTyped = sentenceTyped.split(' ')
@@ -45,6 +51,12 @@ function onKeyUp(event){
         })
     })
 
+}
+
+function onSecondElapsed(event){
+    const { target,detail } = event
+    target.textContent = detail.timer.timeAlloted
+    
 }
 
 export { init, onKeyUp }
