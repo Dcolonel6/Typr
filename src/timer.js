@@ -19,10 +19,14 @@ Timer.prototype.startCountDown = function(){
             cancelable: true,
             bubbles: true
         })
+        if(self.timeAlloted === 0){
+            self.timeUp()
+        }
 
         self.eleTimer.dispatchEvent(secondElapsed)
 
     },1000)
+    this.setAlarm(this.timeAlloted)
     
 
 }
@@ -35,8 +39,7 @@ Timer.prototype.resetTime  = function(){
 }
 
 //checks to see if time is up and raises a timeup Event
-Timer.prototype.setAlarm = function(time){
-    self = this
+Timer.prototype.timeUp = function(time){    
     const timeIsUp = new CustomEvent('TimeIsUp',{
         detail: {
             message: `${time} has elapsed`,
@@ -45,11 +48,9 @@ Timer.prototype.setAlarm = function(time){
         cancelable: true,
         bubbles:true
     })
-    this.setTimeoutId = setTimeout(function(){
-        self.eleTimer.dispatchEvent(timeIsUp)
-        self.resetTime()
-
-    },this.timeAlloted * 1000)
+    this.eleTimer.dispatchEvent(timeIsUp)
+    this.resetTime()
+    return this   
     
 }
 export { Timer }
