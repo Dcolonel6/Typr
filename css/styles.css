@@ -1,6 +1,9 @@
 .container{
     background-color: aqua;
 }
-.row {
+.outline-2 {
     outline: 2px solid red;
+}
+.hidden{
+    visibility: hidden;
 }
