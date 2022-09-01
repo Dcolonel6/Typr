@@ -22,22 +22,22 @@ Sentences.prototype.prepareSentence = function(){
         const arrayOfLetters = word.split('')
         arrayOfLetters.forEach((letter,indx) =>{
             this._data.push({
-                word: word,
-                letter:letter,
-                letterIndxInWord: indx,
-                indexInRelationToSentence: count,
-                isLetter: true,
-                indexOfWord: index
+                "data-word": word,
+                "data-letter":letter,
+                "data-letterIndxInWord": indx,
+                "data-indexInRelationToSentence": count,
+                "data-isLetter": true,
+                "indexOfWord": index
             })
             count++
         })
         this._data.push({
-            word: 'space',
-            letter: ' ',
-            letterIndxInWord: 0,
-            indexInRelationToSentence: count,
-            isLetter: false,
-            indexOfWord: index
+            "data-word": 'space',
+            "data-letter": ' ',
+            "data-letterIndxInWord": 0,
+            "data-indexInRelationToSentence": count,
+            "data-isLetter": false,
+            "data-indexOfWord": index
         })
         count++
 
@@ -50,7 +50,7 @@ Sentences.prototype.populateDom = function(ele = this.paragraphElemnt){
     this._data.forEach(object => {
 
         if(object.isLetter){
-            const span = createElement('span',object.letter,object)
+            const span = createElement('span',object["data-letter"],object)
             ele.append(span)
             // ele.innerHTML += `
             // <span  
@@ -60,7 +60,7 @@ Sentences.prototype.populateDom = function(ele = this.paragraphElemnt){
             //     data-index-letter-sentence="${indexInRelationToSentence}">${letter}</span>`
             
         }else{
-            const span = createElement('span',object.letter,object)
+            const span = createElement('span',object["data-letter"],object)
             ele.append(span)
             // ele.innerHTML += `
             // <span  
@@ -77,7 +77,8 @@ Sentences.prototype.populateDom = function(ele = this.paragraphElemnt){
 //fetchs the sentence to be typed from an api
 Sentences.prototype.getSentence = function(){
     //fetch a sentence using fetch
-    this.sentences = `Mediocrity is a place where people often get stuck and do not know how to escape. 
+    const sentences = `
+    Mediocrity is a place where people often get stuck and do not know how to escape. 
     This is a mindset that can only be changed with mind renewal. 
     In order to move from this place, one must think differently, get rid of what hasn't worked, 
     connect with those who can give sound direction, design a plan of action and put that plan in motion. 
@@ -86,7 +87,8 @@ Sentences.prototype.getSentence = function(){
     We are only limiting ourselves and wasting our precious time. 
     The moment we begin to settle in the most important roles of our lives is the moment we begin to die a slow death. 
     Excellence is a place where people who refuse to settle for mediocrity live; it is where one reaps from all the hard work sown. 
-    It is a journey of continuous progression toward the goals in your life.`
+    It is a journey of continuous progression toward the goals in your life.`.trim().replace(/\s+/gm, ' ')
+    this.sentences = sentences
     return this.sentences
 }
 Sentences.prototype.getPrepared = function(){
