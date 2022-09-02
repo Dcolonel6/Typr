@@ -56,16 +56,29 @@ function findByPosition(list, queryObject){
 //slice the data using our find element and returns the whole word
 function findTheWholeWordCollection(list, letterObject){
   if(Object.keys(letterObject).length > 0){
+    //if its a space just return the space
+    if(letterObject["data-word"] ==='space'){
+      return [letterObject]
+    }
     const indexOfLetterInWord = letterObject['data-letterIndxInWord']
     const indexOfLetterInSentence = letterObject["data-indexInRelationToSentence"]
     const lengthOfWord = letterObject["data-word"].length
     const start = indexOfLetterInSentence - indexOfLetterInWord
     const end = start + lengthOfWord
+
     return list.slice(start,end)
   }
   return []
   
 }
+//fetches things from url
+async function get(url){
+  const response = await(fetch(url))
+  const data = await response.json()
+
+  return data
+
+}
 
 
-export { createElement, findWordRecords}
+export { createElement, findWordRecords,get}
