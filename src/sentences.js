@@ -5,7 +5,7 @@
  * our sentences. it should fetch,breakdown and populate the Dom with
  * the initial sentence to be typed
  */
-import { createElement } from './utilities.js'
+import { createElement,get } from './utilities.js'
 
 const Sentences = function(elem){
     this._data = []
@@ -27,7 +27,7 @@ Sentences.prototype.prepareSentence = function(){
                 "data-letterIndxInWord": indx,
                 "data-indexInRelationToSentence": count,
                 "data-isLetter": true,
-                "indexOfWord": index
+                "data-indexOfWord": index
             })
             count++
         })
@@ -75,9 +75,10 @@ Sentences.prototype.populateDom = function(ele = this.paragraphElemnt){
 
 }
 //fetchs the sentence to be typed from an api
-Sentences.prototype.getSentence = function(){
+Sentences.prototype.getSentence = async function(){
     //fetch a sentence using fetch
-    const sentences = `
+    const sentences = [
+        `
     Mediocrity is a place where people often get stuck and do not know how to escape. 
     This is a mindset that can only be changed with mind renewal. 
     In order to move from this place, one must think differently, get rid of what hasn't worked, 
@@ -87,9 +88,30 @@ Sentences.prototype.getSentence = function(){
     We are only limiting ourselves and wasting our precious time. 
     The moment we begin to settle in the most important roles of our lives is the moment we begin to die a slow death. 
     Excellence is a place where people who refuse to settle for mediocrity live; it is where one reaps from all the hard work sown. 
-    It is a journey of continuous progression toward the goals in your life.`.trim().replace(/\s+/gm, ' ')
-    this.sentences = sentences
-    return this.sentences
+    It is a journey of continuous progression toward the goals in your life.`,
+    `
+    Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Cura
+    `
+        
+    ]
+    try{
+        const listOfSentences = await get("https://api.mockaroo.com/api/e24070a0?count=10&key=acef1f50")
+        
+        const sentence = listOfSentences[Math.floor(Math.random() * listOfSentences.length)]["sentence"]
+        console.log(sentence)
+        this.sentences = sentence 
+        return this.sentences
+        
+    }
+    catch(error){
+        console.log('something went wrong')
+        console.error(error)
+        this.sentences = sentences[Math.floor(Math.random() * sentences.length)].trim().replace(/\s+/gm, ' ')
+        return this.sentences        
+
+    }  
+
+
 }
 Sentences.prototype.getPrepared = function(){
     return this._data
