@@ -24,25 +24,30 @@ function init(e){
 //handler for KeyPress
 function onKeyUp(event){
     if(!timer.isActive){
-        timer.startCountDown()
+        timer.startCountDown()    
     }
+    
     const { target } = event
-    const sentenceTyped = target.value
-    const listOfWordsTyped = sentenceTyped.split(' ')
+    const sentenceTyped = target.value.trim()
+    const listOfWordsTyped = sentenceTyped.split(/\s+/g)
     console.log(sentenceTyped)
 
     //check if we have collected any data for this typing session.If we havent start count down
     const sentenceToBeTyped = app.sentenceToBeTyped
-    const arrayOfWords = sentenceToBeTyped.split(' ').slice(0,sentenceTyped.length)
+    const arrayOfWords = sentenceToBeTyped.slice(0,sentenceTyped.length).split(/\s+/g)
+    console.log(arrayOfWords)
+
     arrayOfWords.forEach((word,index) => {
         const wordTyped = listOfWordsTyped[index]
-        const wordData = findWordRecords(app.preparedSentenceToBeTyped,{'indexOfWord':index}) 
-               
+        const wordData = findWordRecords(app.preparedSentenceToBeTyped,{'indexOfWord':index,'word':word}) 
+        console.log(wordData)
+        
         wordData.forEach((letterObject,indx) => {
+            
                       
             const span = paragraphEle.querySelector(`span[data-indexInRelationToSentence="${letterObject['data-indexInRelationToSentence']}"]`)
             
-            if(letterObject["data-letter"] === wordTyped[indx]){
+            if(wordTyped[indx] && letterObject["data-letter"] === wordTyped[indx]){
                 
                 span.classList.remove('text-danger')
                 span.classList.add('text-success')
@@ -53,6 +58,7 @@ function onKeyUp(event){
 
             }
         })
+        
     })
 
 }
@@ -65,20 +71,24 @@ function onSecondElapsed(event){
 function onTimeIsUp(event){
     //over ridden this to point to the text area element
     const { target, detail} = event
-    const results = document.querySelector('#results-content')
-    const rightAttempt = document.querySelector('.text-success')
-    const wrongAttempt = document.querySelector('.text-danger')
-    const totalAttempted = wrongAttempt.length + rightAttempt.length
-    const accuracy = (rightAttempt.length / totalAttempted) * 100
+    const results = document.querySelector('#column-results')
+    const rightAttempt = document.querySelectorAll('.text-success').length
+    const wrongAttempt = document.querySelectorAll('.text-danger').length
+    const btnSubmit = document.querySelector('#submit')
+    const totalAttempted = wrongAttempt + rightAttempt
+    const accuracy = (rightAttempt / totalAttempted) * 100
+
     this.setAttribute('disabled',true)
     target.querySelector('h2').textContent = detail.timer.timeAlloted
-    document.querySelector('submit').setAttribute('disable',true)
+    btnSubmit.setAttribute('disable',true)
     
-    results.innerHTML = `Your score was ${accuracy} <br/>
-    Had ${wrongAttempt} typos <br/>
-    Typed ${rightAttempt} words`
-    results.classList.remove('hidden')
+    results.querySelector('#results-content').innerHTML = `Your score was ${accuracy} <br/>Had ${wrongAttempt} typos <br/>Typed ${rightAttempt} words`
+
+    results.classList.remove('hide')
+    console.log(results)
 
 }
 
 export { init, onKeyUp,onSecondElapsed,onTimeIsUp }
+
+//
