@@ -16,42 +16,47 @@ function init(e) {
   app.initialize();
 }
 
+function tyPingProcessor(event){
+    const { target } = event;
+    const sentenceTyped = target.value.trim();
+    const listOfWordsTyped = sentenceTyped.split(/\b/g);
+    const sentenceToBeTyped = app.sentenceToBeTyped;
+    const arrayOfWords = sentenceToBeTyped
+      .slice(0, sentenceTyped.length)
+      .split(/\b/);
+    
+  
+    arrayOfWords.forEach((word, index) => {
+      const wordTyped = listOfWordsTyped[index];
+      const wordData = findWordRecords(app.preparedSentenceToBeTyped, {
+        indexOfWord: index,
+        word: word,
+      });
+  
+      wordData.forEach((letterObject, indx) => {
+        const span = paragraphEle.querySelector(
+          `span[data-indexInRelationToSentence="${letterObject["data-indexInRelationToSentence"]}"]`
+        );
+  
+        if (wordTyped[indx] && letterObject["data-letter"] === wordTyped[indx]) {
+          span.classList.remove("text-danger");
+          span.classList.add("text-success");
+        } else {
+          span.classList.remove("text-success");
+          span.classList.add("text-danger");
+        }
+      });
+    });
+
+}
 //handler for KeyPress
 function onKeyUp(event) {
   if (!timer.isActive) {
     timer.startCountDown();
   }
+  tyPingProcessor(event)
 
-  const { target } = event;
-  const sentenceTyped = target.value.trim();
-  const listOfWordsTyped = sentenceTyped.split(/\b/g);
-  const sentenceToBeTyped = app.sentenceToBeTyped;
-  const arrayOfWords = sentenceToBeTyped
-    .slice(0, sentenceTyped.length)
-    .split(/\b/);
-  console.log(arrayOfWords);
 
-  arrayOfWords.forEach((word, index) => {
-    const wordTyped = listOfWordsTyped[index];
-    const wordData = findWordRecords(app.preparedSentenceToBeTyped, {
-      indexOfWord: index,
-      word: word,
-    });
-
-    wordData.forEach((letterObject, indx) => {
-      const span = paragraphEle.querySelector(
-        `span[data-indexInRelationToSentence="${letterObject["data-indexInRelationToSentence"]}"]`
-      );
-
-      if (wordTyped[indx] && letterObject["data-letter"] === wordTyped[indx]) {
-        span.classList.remove("text-danger");
-        span.classList.add("text-success");
-      } else {
-        span.classList.remove("text-success");
-        span.classList.add("text-danger");
-      }
-    });
-  });
 }
 
 function onSecondElapsed(event) {
@@ -80,7 +85,17 @@ function onTimeIsUp(event) {
 
   results.classList.remove("hide");
 }
+function onSubmit(event){
+    event.preventDefault()
+    const { target } = event
+    const textArea = target.previousElementSibling
+    console.log(textArea)
 
-export { init, onKeyUp, onSecondElapsed, onTimeIsUp };
+    tyPingProcessor({'target': textArea})
+
+    target.reset()
+}
+
+export { init, onKeyUp, onSecondElapsed, onTimeIsUp, onSubmit };
 
 //
