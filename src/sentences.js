@@ -15,34 +15,41 @@ const Sentences = function(elem){
 //breaks down the sentence to be typed into letters and wraps in spans
 Sentences.prototype.prepareSentence = function(){
     const sentence = this.sentences
-    const arrayOfWords = sentence.split(' ')
-
+    const arrayOfWords = sentence.split(/\b/)    //split along word boundaries
     let count = 0
-    arrayOfWords.forEach((word, index) =>{
-        const arrayOfLetters = word.split('')
-        arrayOfLetters.forEach((letter,indx) =>{
+
+    for (let wordIndex = 0; wordIndex < arrayOfWords.length; wordIndex++){
+        const word = arrayOfWords[wordIndex]
+        //if word is a space
+        if(word.length === 1 && /\s+/.test(word)){
             this._data.push({
-                "data-word": word,
-                "data-letter":letter,
-                "data-letterIndxInWord": indx,
-                "data-indexInRelationToSentence": count,
-                "data-isLetter": true,
-                "data-indexOfWord": index
-            })
-            count++
-        })
-        this._data.push({
             "data-word": 'space',
             "data-letter": ' ',
             "data-letterIndxInWord": 0,
             "data-indexInRelationToSentence": count,
             "data-isLetter": false,
-            "data-indexOfWord": index
-        })
-        count++
+            "data-indexOfWord": wordIndex
+            })
+            count++
 
-    })
-    this._data.pop()
+        }
+        //loop over the word if its not a space ond a single character
+        for(let letterIndex = 0; letterIndex < word.length;letterIndex++){
+            const letter = word[letterIndex]
+            this._data.push({
+                "data-word": word,
+                "data-letter":letter,
+                "data-letterIndxInWord": letterIndex,
+                "data-indexInRelationToSentence": count,
+                "data-isLetter": true,
+                "data-indexOfWord": wordIndex
+            })
+            count++
+
+        }
+    }
+    
+    
     return this
 }
 Sentences.prototype.populateDom = function(ele = this.paragraphElemnt){
@@ -52,22 +59,11 @@ Sentences.prototype.populateDom = function(ele = this.paragraphElemnt){
         if(object.isLetter){
             const span = createElement('span',object["data-letter"],object)
             ele.append(span)
-            // ele.innerHTML += `
-            // <span  
-            //     data-word="${word}" 
-            //     data-index-of-word="${indexOfWord}"
-            //     data-index-letter-word="${letterIndxInWord}"
-            //     data-index-letter-sentence="${indexInRelationToSentence}">${letter}</span>`
+           
             
         }else{
             const span = createElement('span',object["data-letter"],object)
-            ele.append(span)
-            // ele.innerHTML += `
-            // <span  
-            //     data-word="${word}" 
-            //     data-index-of-word="${indexOfWord}"
-            //     data-index-letter-word="${letterIndxInWord}"
-            //     data-index-letter-sentence="${indexInRelationToSentence}">${letter}</span>`
+            ele.append(span)      
 
         }
     })
@@ -89,9 +85,16 @@ Sentences.prototype.getSentence = async function(){
     The moment we begin to settle in the most important roles of our lives is the moment we begin to die a slow death. 
     Excellence is a place where people who refuse to settle for mediocrity live; it is where one reaps from all the hard work sown. 
     It is a journey of continuous progression toward the goals in your life.`,
-    `
-    Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Cura
-    `
+
+    `Duis at velit eu est congue elementum. In hac habitasse platea dictumst. 
+    Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.
+    Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. 
+    Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. 
+    Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. 
+    Donec ut mauris eget massa tempor convallis. 
+    Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. 
+    Quisque id justo sit amet sapien dignissim vestibulum. 
+    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;`
         
     ]
     try{
