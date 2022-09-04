@@ -23,18 +23,18 @@ function init(e){
 
 //handler for KeyPress
 function onKeyUp(event){
-    if(!timer.isActive){
-        timer.startCountDown()    
-    }
+    // if(!timer.isActive){
+    //     timer.startCountDown()    
+    // }
     
     const { target } = event
     const sentenceTyped = target.value.trim()
-    const listOfWordsTyped = sentenceTyped.split(/\s+/g)
+    const listOfWordsTyped = sentenceTyped.split(/\b/g)
     console.log(sentenceTyped)
 
     //check if we have collected any data for this typing session.If we havent start count down
     const sentenceToBeTyped = app.sentenceToBeTyped
-    const arrayOfWords = sentenceToBeTyped.slice(0,sentenceTyped.length).split(/\s+/g)
+    const arrayOfWords = sentenceToBeTyped.slice(0,sentenceTyped.length).split(/\b/)
     console.log(arrayOfWords)
 
     arrayOfWords.forEach((word,index) => {
