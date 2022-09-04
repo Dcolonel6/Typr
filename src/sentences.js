@@ -50,7 +50,7 @@ Sentences.prototype.prepareSentence = function () {
   return this;
 };
 Sentences.prototype.populateDom = function (ele = this.paragraphElemnt) {
-  console.log(ele);
+ 
   this._data.forEach((object) => {
     if (object.isLetter) {
       const span = createElement("span", object["data-letter"], object);
@@ -101,11 +101,12 @@ Sentences.prototype.getSentence = async function () {
     this.sentences = sentence;
     return this.sentences;
   } catch (error) {
-    console.log("something went wrong");
-    console.error(error);
     this.sentences = sentences[Math.floor(Math.random() * sentences.length)]
       .trim()
       .replace(/\s+/gm, " ");
+    console.log("something went wrong");
+    console.error(error);
+    
     return this.sentences;
   }
 };

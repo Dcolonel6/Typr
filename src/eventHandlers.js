@@ -9,7 +9,8 @@ import { findWordRecords } from "./utilities.js";
 const app = new App();
 const paragraphEle = document.querySelector("#sentences");
 const timeElement = document.querySelector("#timer");
-const timer = new Timer(15, timeElement);
+const time = location.host.indexOf('localhost') > -1 ? 15 : 60
+const timer = new Timer(time, timeElement);
 
 //handler for DomContentLoaded
 function init(e) {
@@ -88,11 +89,9 @@ function onTimeIsUp(event) {
 function onSubmit(event){
     event.preventDefault()
     const { target } = event
-    const textArea = target.previousElementSibling
-    console.log(textArea)
-
+    const textArea = target['type-area']
     tyPingProcessor({'target': textArea})
-
+    timer.timeUp(time)
     target.reset()
 }
 
