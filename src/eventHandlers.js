@@ -82,7 +82,7 @@ function onTimeIsUp(event) {
     "#results-content"
   ).innerHTML = `Your score was ${Math.floor(
     accuracy
-  )} %<br/>Had ${wrongAttempt} typos <br/>Typed ${rightAttempt} words`;
+  )} %<br/>Had ${wrongAttempt} typos <br/>Typed ${totalAttempted} characters`;
 
   results.classList.remove("hide");
 }
