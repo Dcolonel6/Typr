@@ -28,4 +28,5 @@ For any enquires kindly send an email at [dennis.njogu@student.moringaschool.com
 
 ## License
 
-This project is licensed under the MIT License - for more information kindly visit [LICENSE](add url for licence) 
+This project is licensed under the MIT License - for more information kindly visit [LICENSE](https://github.com/Dcolonel6/Typr/blob/main/LICENSE) 
+) 
