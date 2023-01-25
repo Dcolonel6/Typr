@@ -24,7 +24,7 @@ Alternatively you can visit a live link [here](https://dcolonel6.github.io/Typr/
 * JAVASCRIPT - VANILLA
 
 ## Contacts
-For any enquires kindly send an email at [dennis.njogu@student.moringaschool.com](dennis.njogu@student.moringaschool.com)
+For any enquires kindly send an email at [dennisnjogu78@gmail.com]([dennisnjogu78@gmail.com)
 
 ## License
 
